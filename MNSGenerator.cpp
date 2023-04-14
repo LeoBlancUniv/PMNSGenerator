@@ -275,10 +275,10 @@ void MNSGenerator(){
 		P = _P;
 		nbBitsP = NumBits(P);
 	}
-	if (_P_ORDER != 1){
+	if (_P_ORDER != -1){
 		nbBitsP = 1 << _P_ORDER;
 	}
-	if (_P_Size != 1){
+	if (_P_Size != -1){
 		nbBitsP = _P_Size;
 	}
 	
