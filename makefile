@@ -4,8 +4,8 @@ LINKER = -lntl -lfplll -lgmp
 
 all:Generator.exe test.exe
 
-#val:test.exe
-#	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./test.exe 8
+#val:Generator.exe test.exe
+#	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./Generator.exe -P_order 10
 
 Generator.exe:Generator.o Base.o MNSGenerator.o Norm.o FindM.o FindRoots.o Misc.o Bound.o Meta.o Poly.o
 	$(CC) $^ $(FLAG) -o $@ $(LINKER)
