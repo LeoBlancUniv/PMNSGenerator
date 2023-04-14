@@ -1,0 +1,145 @@
+breakdown of whats happening in the code
+each step will fix a variable and try to vary all the non fixed one to find a combinaison that yield a valid PMNS that respect every constraint
+
+1 : tries to fix P
+2 : tries to fix N
+3 : tries to fix E
+4 : tries to fix Gamma and B (if we try to find B we stop here)
+5 : tries to fix M
+
+using the option below you can change what combinaison of those parameter are considered valid 
+
+
+Use:
+./Generator.exe [option]
+
+
+
+Options are evaluated from left to right 
+
+
+Theses options are presets:
+
+-EnsureSmallest : will force all check to be performed so that we don't miss the first avaiable pmns 
+equivalent to : -Poly_Type ANY -DisableFastRootCheck -FactorLimit -1
+
+
+-FastHeuristic : will enable most strategy to reduce time but may not find the smallest possible pmns
+equivalent to : -Poly_Type Xn_Lam -FactorLimit 60 -ExactMaxBound -AugmentedMinN
+
+-------------------------------------------------------------------------------------
+
+Misc options :
+
+-V : verbose mode will print out of the standart output all sort of info about whats going on 
+-Show : will print out the PMNS on standart output after it's found
+
+-Out : will allows the result of the generation (if there is one) to be put in the file "/PMNS/generatedwith<M or B><order>delta<delta>phi<phi>pmns.py"
+the file are made to be reused if you generate another one with the same parameter, one pmns per line
+
+
+-Nb_Thread <nb> : fixes the number of thread to use, default is 1
+-------------------------------------------------------------------------------------
+
+Theses options are used to fix some of the parameter to find the PMNS :
+
+One of those three need to be specified :
+
+	-P <p> : fix the value of P
+	-P_order <order> : the value of P is a prime definied on 2^order bits
+	-P_size <size> : the value of P is a prime definied on <size> bits
+
+
+-N <n> : fix the value of N
+
+-N_RangeMin <n_min> : the considered value of N starts at <n_min>
+If unspecified N starts at the minimum theoretical possible N
+
+-N_RangeMax <n_max> : the considered value of N stops at <n_max>
+If unspecified N grows until a PMNS is found
+
+-Phi <phi> : fix the log 2 value of phi, default is 64
+
+-Delta <delta> : delta value, default is 0
+
+-------------------------------------------------------------------------------------
+
+Theses options are used to change some of the internal logic (optimisation, strategy ,...) :
+
+-Poly_Type <value> : allows to fix the type of poly used,  value = {Xn_Lam, Xn_X_1, Xn_X2_1, ANY}
+
+-B_or_M <value> : allows to choose what is generated, value = {B, M}, default is M
+
+-DisableFastRootCheck : will force a check on every roots instead of one (this will cause multiple LLL call per poly considered so expect a big slowdown)
+
+-ExactMaxBound : change the max bound calc from P^(1/n) to n * P^(1/n), will accelerate a lot at the cost of skipping smaller correct pmns
+
+-AugmentedMinN : change the smallest n bound from P(1/n) to sqrt(n) * P^(1/n), so that will make the default min N grow bigger
+
+
+-FactorLimit <value> :
+
+	if <value> is > 0, the generator will skip any poly factoring in Fp if it's degree is >= <value>
+
+	if <value> is 0, the generator will skip any poly factoring in Fp if it's degree is >= to <see Meta.h>
+	this is default beaviour if not specified
+
+	if <value> is < 0, the generator will never skip poly factoring (this can cause long generation time)
+
+-BKZ : uses BKZ instead of LLL for the reduction, yield better base but takes longer 
+
+-------------------------------------------------------------------------------------
+
+Theses options are used to fine tune the others options :
+
+-Poly_type = Xn_Lam option :
+
+	-Xn_Lam_Lam <lam> : fix the value of lam
+
+	-Xn_Lam_Lam_RangeMin <lam_min> : the considered value of lam starts at <lam_min>
+	If unspecified lam starts 1
+
+	-Xn_Lam_Lam_RangeMax <lam_max> : the considered value of lam stops at <lam_max>
+	If unspecified lam grows until the considered Xn - lam poly is out of the PHI bound
+
+	note : lam alternate between pos and neg so the range is about the abs(lam)
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+Adding a new poly type in the system :
+
+in Poly.h, add a new entry to the enum PolyType
+in Poly.cpp add that entry in the array PolyTypeStr and change the size to adapt (change it also in it's declaration in poly.h)
+
+in Poly.h declare :
+polyInit<typeName>
+polyNext<typeName>
+polyCheck<typeName>
+polyPrint<typeName>
+polyNothingFound<typeName>
+
+in Poly.cpp implement those function and add them in their respective wrapper
+
+in Norm.h declare :
+calcW<typeName>
+norm1_M_<typeName> (if you have a better way of calculating the norm of M than the generic way)
+
+in Norm.cpp implement those function and add them in their respective wrapper
+
+in FindM.cpp if you have a better way of checking if a given M is invertible mod (E, Phi) you can add it in the switch
+
+in FindRoots.h declare:
+findRootStrategy<typeName>
+findRoots<typeName>
+you can also add new entry to the RootStrategy enum if you find new way of getting roots in Fp (don't forget to change RootStrategyStr)
+
+in FindRoot.cpp implement those function, add their call in the switch of (MNSGenerator.cpp):
+generateFromE for findRoots
+generateFromN for findRootStrategy
+
+in MNSGenerator.cpp :
+in function MNSGenerator add in the treatement of _Poly_Type = ANY a section for <typeName>
+
+in Misc.cpp :
+in the switch add a entry for <typeName> that return in a vec all the non 0 coeff (except the Xn coeff)
