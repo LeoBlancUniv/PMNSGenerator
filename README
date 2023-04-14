@@ -1,5 +1,6 @@
 breakdown of whats happening in the code
 each step will fix a variable and try to vary all the non fixed one to find a combinaison that yield a valid PMNS that respect every constraint
+step 3 and forward can be done in parallel
 
 1 : tries to fix P
 2 : tries to fix N
