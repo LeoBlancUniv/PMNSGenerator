@@ -22,6 +22,8 @@ enum MorB : int{
 	M, B
 };
 
+
+
 bool checkMorB(const NTL::ZZX& M, const NTL::ZZX& E);
 
 

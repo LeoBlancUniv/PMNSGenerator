@@ -5,7 +5,7 @@ using namespace NTL;
 
 const char* MorBStr[2] = {"M", "B"}; 
 
-bool resultantCheck(const ZZX& E, const ZZX& M){
+bool resultantCheck(const ZZX& M, const ZZX& E){
 	/*
 		compute the resultant of E and M and check that it's odd
 	*/
@@ -39,40 +39,45 @@ bool gcd_M_Xn_1(const ZZX& M, int n){
 
 }
 
+bool check_Xn_Lam(const ZZX& M, const ZZX& E){
+	int n = deg(E);
+	ZZ Lam = -ConstTerm(E);
+
+	bool is_pair;
+	is_pair = !IsOdd(Lam);
+
+	if (is_pair){
+		//Lam is pair, we need to check if the constant terme if M is odd
+		return IsOdd(ConstTerm(M));
+	}
+	else{
+		//Lam is odd we need to check that the gcd of M and Xn_p1 is 1
+		return gcd_M_Xn_1(M, n);
+	}
+}
+
 bool checkMorB(const ZZX& M, const ZZX& E){
 	/*
 		check wether a given M is invertible mod (E, PHI)
 	*/
-	int n = deg(E);
+
 	if (is_irreducible(E)){
 		switch (_Poly_Type){
 			case Xn_Lam : {
 
-				ZZ Lam = -ConstTerm(E);
-
-				bool is_pair;
-				is_pair = !IsOdd(Lam);
-
-				if (is_pair){
-					//Lam is pair, we need to check if the constant terme if M is odd
-					return IsOdd(ConstTerm(M));
-				}
-				else{
-					//Lam is odd we need to check that the gcd of M and Xn_p1 is 1
-					return gcd_M_Xn_1(M, n);
-				}
+				return check_Xn_Lam(M, E);
 
 			}break;
 
 			default :
-				return resultantCheck(E, M);
+				return resultantCheck(M, E);
 			break;
 		}	
 	}
 	else{
 		switch (_Poly_Type){
 			default:
-				return resultantCheck(E, M);
+				return resultantCheck(M, E);
 			break;	
 		}
 	}
