@@ -110,5 +110,7 @@ Mat<ZZ> createReducedBaseFpLLL(const ZZ& P, const int n, const ZZ_p& Root){
 
 	convertMatMPZtoMatZZ(BaseLLL, Base_MPZ);
 
+	freeMatMPZ(Base_MPZ);
+
 	return BaseLLL;
 }

@@ -113,12 +113,14 @@ void freeMatMPZ(ZZ_mat<mpz_t>& Mat){
 	*/
 	int nBRowLine = Mat.get_rows();
 
-	cout << Mat << endl;
+	
 
 	for (int i = 0; i < nBRowLine; i++){
 		for (int j = 0; j < nBRowLine; j++){
-			cout << i << j << endl;
+			
 			mpz_clear(Mat[i][j].get_data());
+			Mat[i][j].get_data()->_mp_d = 0;
+			
 		}
 	}
 

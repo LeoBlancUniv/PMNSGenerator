@@ -202,7 +202,7 @@ bool generateFromN(ZZ& P, int n){
 		ZZ_p::init(P); 
 
 		#pragma omp flush
-		#pragma atomic read
+		#pragma omp atomic read
 		skip = found; 
 
 
@@ -210,11 +210,11 @@ bool generateFromN(ZZ& P, int n){
 			if (generateFromE(P, n, RStrat, PoverBK, E_vec[i], Rho, Gamma, Base, Base_inv, M, M_inv)){
 
 				#pragma omp flush(found)
-				#pragma atomic write
+				#pragma omp atomic write
 					found = true;
 				
 				#pragma omp flush(nb)
-				#pragma atomic write
+				#pragma omp atomic write
 					nb = i;
 			}
 		}
