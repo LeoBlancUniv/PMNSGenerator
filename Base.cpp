@@ -96,7 +96,7 @@ Mat<ZZ> createReducedBaseFpLLL(const ZZ& P, const int n, const ZZ_p& Root){
 		Wrapper W = Wrapper(Base_MPZ, U, U_inv, LLL_DEF_DELTA, LLL_DEF_ETA, LLL_DEFAULT);
 
 		W.lll();
-		bkz_reduction(Base_MPZ, 10, BKZ_DEFAULT, FT_MPFR, 500);
+		bkz_reduction(Base_MPZ, 10, BKZ_DEFAULT, FT_MPFR, 200);
 		//bkz_reduction(Base_MPZ, 10);
 
 	}

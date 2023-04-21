@@ -36,6 +36,8 @@ bool testFullGenerate(const ZZ& P, int n, const ZZX& E,
 
 			ZZX M;
 
+
+
 			if (findMorBFromRoot(P, n, W4, Roots_vec[i], E, M, Base)){
 
 				invMorB(P, E, M, Base, M_inv_dest, Base_inv_dest);
@@ -70,6 +72,10 @@ bool generateFromE(const ZZ& P, const int n, const RootStrategy RStrat, const ZZ
 		Vec<ZZ_p> Roots_vec;
 
 		bool rootsFound = false;
+
+		if (_SVerbose){
+			polyPrintWrapper(E);
+		}
 
 		switch (_Poly_Type){
 			case Xn_Lam :

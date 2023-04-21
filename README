@@ -32,7 +32,8 @@ equivalent to : -Poly_Type Xn_Lam -FactorLimit 60 -ExactMaxBound -AugmentedMinN
 
 Misc options :
 
--V : verbose mode will print out of the standart output all sort of info about whats going on 
+-V : verbose mode will print out of the standard output all sort of info about whats going on 
+-SV : super verbose, will print out on the standard output a lot of info to debbug (best used with 1 thread) 
 -Show : will print out the PMNS on standart output after it's found
 
 -Out : will allows the result of the generation (if there is one) to be put in the file "/PMNS/generatedwith<M or B><order>delta<delta>phi<phi>pmns.py"

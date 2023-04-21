@@ -305,7 +305,7 @@ bool polyNothingFound_Xn_X2_1(RootStrategy& RStrat){
 	return true;
 }
 
-void polyPrintWrapper(ZZX& Poly){
+void polyPrintWrapper(const ZZX& Poly){
 	/*
 		_Verbose print wrapper
 	*/
@@ -319,28 +319,28 @@ void polyPrintWrapper(ZZX& Poly){
 
 }
 
-void polyPrint_Xn_Lam(ZZX& Poly){
+void polyPrint_Xn_Lam(const ZZX& Poly){
 	int n = deg(Poly);
 	int lambda = conv<int>(-ConstTerm(Poly));
 
 
-	cout << "iter (n = " << n << ", lambda = " << lambda << ")" << flush;
+	cout << "iter (n = " << n << ", lambda = " << lambda << ")" << endl;
 }
 
-void polyPrint_Xn_X_1(ZZX& Poly){
+void polyPrint_Xn_X_1(const ZZX& Poly){
 	ZZ x, c;
 	int n = deg(Poly);
 	x = coeff(Poly, 1);
 	c = ConstTerm(Poly);
 
-	cout << "iter (n = " << n << ", x = " << x << ", c = " << c << ")" << flush;
+	cout << "iter (n = " << n << ", x = " << x << ", c = " << c << ")" << endl;
 }
 
-void polyPrint_Xn_X2_1(ZZX& Poly){
+void polyPrint_Xn_X2_1(const ZZX& Poly){
 	ZZ n2, c;
 	int n = deg(Poly);
 	n2 = coeff(Poly, n/2);
 	c = ConstTerm(Poly);
 
-	cout << "iter (n = " << n << ", n/2 = " << n2 << ", c = " << c << ")" << flush;
+	cout << "iter (n = " << n << ", n/2 = " << n2 << ", c = " << c << ")" << endl;
 }

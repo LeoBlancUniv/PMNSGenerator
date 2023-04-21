@@ -49,6 +49,13 @@ int main(int argc, char const *argv[])
 			i++;
 		}
 
+		else if (current == "-SV"){
+			_SVerbose = true;
+			_Verbose = true;
+			_Show = true;
+			i++;
+		}
+
 		else if (current == "-Show"){
 			_Show = true;
 			i++;

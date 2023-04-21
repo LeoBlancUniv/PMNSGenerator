@@ -11,6 +11,7 @@ RR PHI_RR = NTL::conv<NTL::RR>(PHI);
 //
 
 bool _Verbose = false;
+bool _SVerbose = false;
 bool _Show = false;
 bool _Out = false;
 string _Path = "";

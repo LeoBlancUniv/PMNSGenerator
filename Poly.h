@@ -37,25 +37,25 @@ void factorZ(NTL::vec_pair_ZZX_long& Factor_vec_dest, const NTL::ZZX& Poly);
 bool polyInitWrapper(int n, NTL::ZZX& Poly);
 bool polyNextWrapper(NTL::ZZX& Poly_dest, const NTL::ZZX& Poly_src);
 bool polyCheckWrapper(const NTL::ZZX& Poly, const NTL::ZZ& P);
-void polyPrintWrapper(NTL::ZZX& Poly);
+void polyPrintWrapper(const NTL::ZZX& Poly);
 bool polyNothingFoundWrapper(RootStrategy& RStrat);
 
 bool polyInit_Xn_Lam(int n, NTL::ZZX& Poly);
 bool polyNext_Xn_Lam(NTL::ZZX& Poly_dest, const NTL::ZZX& Poly_src);
 bool polyCheck_Xn_Lam(const NTL::ZZX& Poly, const NTL::ZZ& P);
-void polyPrint_Xn_Lam(NTL::ZZX& Poly);
+void polyPrint_Xn_Lam(const NTL::ZZX& Poly);
 bool polyNothingFound_Xn_Lam(RootStrategy& RStrat);
 
 bool polyInit_Xn_X_1(int n, NTL::ZZX& Poly);
 bool polyNext_Xn_X_1(NTL::ZZX& Poly_dest, const NTL::ZZX& Poly_src);
 bool polyCheck_Xn_X_1(const NTL::ZZX& Poly);
-void polyPrint_Xn_X_1(NTL::ZZX& Poly);
+void polyPrint_Xn_X_1(const NTL::ZZX& Poly);
 bool polyNothingFound_Xn_X_1(RootStrategy& RStrat);
 
 bool polyInit_Xn_X2_1(int n, NTL::ZZX& Poly);
 bool polyNext_Xn_X2_1(NTL::ZZX& Poly_dest, const NTL::ZZX& Poly_src);
 bool polyCheck_Xn_X2_1(const NTL::ZZX& Poly);
-void polyPrint_Xn_X2_1(NTL::ZZX& Poly);
+void polyPrint_Xn_X2_1(const NTL::ZZX& Poly);
 bool polyNothingFound_Xn_X2_1(RootStrategy& RStrat);
 
 

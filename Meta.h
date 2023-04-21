@@ -30,6 +30,7 @@ extern NTL::RR PHI_RR;
 //
 
 extern bool _Verbose;
+extern bool _SVerbose;
 extern bool _Show;
 extern bool _Out;
 extern std::string _Path;

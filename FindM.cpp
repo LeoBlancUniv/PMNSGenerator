@@ -112,25 +112,135 @@ bool findMorBFromRoot(const ZZ& P, const int n, const RR& W4, const ZZ_p& Root, 
 	ZZ Lam = -ConstTerm(E);
 
 	int i = 0;
-	
+
+	RR MinBoundM = conv<RR>(0);	
 	while(true){
 
 		M = conv<ZZX>(Base[i]); //convert the ith line of the matrix into a poly
 
 		if (checkMorB(M, E)){ //is M invertible
-			 
-			if (W4 * conv<RR>(norm1_M_Wrapper(M, E)) * (_Delta + 1) * (_Delta + 1) < PHI_RR){
+			RR BoundTmp = W4 * conv<RR>(norm1_M_Wrapper(M, E)) * (_Delta + 1) * (_Delta + 1);
+			if (BoundTmp < PHI_RR){
 				
 				M_dest = M;
 				Base_dest = Base;
 				
 				return true;
 			}
+			else{
+				if (MinBoundM == 0){
+					MinBoundM = BoundTmp;
+				}
+				else
+				{
+					if (BoundTmp < MinBoundM){
+						MinBoundM = BoundTmp;
+					}
+				}
+			}
 		}
 
 		i++;
 
 		if (i == nbRow){ //every poly of the base was not good
+			//cout << Base << endl;
+			/*RR MinBound = conv<RR>(0);
+			if (not IsOdd(ConstTerm(E))){
+				//trying to make the sum of lines of the base work :
+				ZZX A, B;
+				
+
+				for (int j = 0; j < nbRow; j++){
+
+					bool invA;
+
+					A = conv<ZZX>(Base[j]);
+
+					invA = checkMorB(A, E);
+
+					RR BoundA = W4 * conv<RR>(norm1_M_Wrapper(A, E)) * (_Delta + 1) * (_Delta + 1);
+					
+					
+
+					RR BoundAB = BoundA;
+					RR BoundTmpAB;
+					RR BoundTmpA_B;
+					RR BoundTmpB_A;
+
+					for (int k = 0;k < nbRow; k++){
+						
+						bool invB;
+
+						if (j != k){
+
+							B = conv<ZZX>(Base[k]);
+
+							invB = checkMorB(B, E);
+
+							ZZX AB = A + B;
+
+							if (checkMorB(AB, E)){
+								BoundTmpAB = W4 * conv<RR>(norm1_M_Wrapper(AB, E)) * (_Delta + 1) * (_Delta + 1);
+								if (MinBound == 0){
+									MinBound = BoundTmpAB;
+								}
+								else{
+									if (BoundTmpAB < MinBound){
+										MinBound = BoundTmpAB;
+									}
+								}
+							}
+
+							ZZX A_B = A - B;
+							if (checkMorB(A_B, E)){
+								BoundTmpA_B = W4 * conv<RR>(norm1_M_Wrapper(A_B, E)) * (_Delta + 1) * (_Delta + 1);
+								if (MinBound == 0){
+									MinBound = BoundTmpA_B;
+								}
+								else{
+									if (BoundTmpA_B < MinBound){
+										MinBound = BoundTmpA_B;
+									}
+								}
+							}
+
+							ZZX B_A = B - A;
+							if (checkMorB(B_A, E)){
+								BoundTmpB_A = W4 * conv<RR>(norm1_M_Wrapper(B_A, E)) * (_Delta + 1) * (_Delta + 1);
+								if (MinBound == 0){
+									MinBound = BoundTmpB_A;
+								}
+								else{
+									if (BoundTmpB_A < MinBound){
+										MinBound = BoundTmpB_A;
+									}
+								}
+							}
+						}
+					}
+				}
+
+				RR RR_2 = conv<RR>(2);
+				RR bottom = log(RR_2);
+
+				if (MinBoundM > MinBound){
+					if (log(MinBoundM)/bottom > 80){
+						//cout << Base << endl;
+					}
+
+					cout << log(MinBoundM)/bottom << " " << flush;
+					if (MinBound != 0){
+						cout << log(MinBound)/bottom << endl;
+					}
+					else{
+						cout << endl;
+					}
+				}
+
+				
+			
+				
+			}*/
 			return false;
 		}
 	}
