@@ -1,3 +1,19 @@
+install req
+
+GMP
+https://gmplib.org/
+
+NTL installed with install wizard and the GMP option (done by default i think but better double check)
+https://libntl.org/doc/tour-unix.html
+
+FpLLL :
+https://github.com/fplll/fplll#Installation-from-source
+
+Compiler that handles OpenMP
+g++ 9.4.0
+
+
+
 breakdown of whats happening in the code
 each step will fix a variable and try to vary all the non fixed one to find a combinaison that yield a valid PMNS that respect every constraint
 step 3 and forward can be done in parallel
