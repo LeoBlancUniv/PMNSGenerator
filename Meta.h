@@ -55,6 +55,7 @@ extern MorB _B_or_M;
 extern bool _DisableFastRootCheck;
 extern bool _ExactMaxBound;
 extern bool _AugmentedMinN;
+extern bool _ForceIrreducible;
 extern int _FactorLimit;
 extern bool _BKZ;
 

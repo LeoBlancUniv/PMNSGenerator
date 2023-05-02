@@ -89,7 +89,7 @@ bool checkMorB(const ZZX& M, const ZZX& E){
 bool findMorBFromRoot(const ZZ& P, const int n, const RR& W4, const ZZ_p& Root, const ZZX& E, ZZX& M_dest, mat_ZZ& Base_dest){
 	/*
 		from a root of the poly, create the associated lattice
-		and tries to find depeding on _B_or_M
+		and tries to find depending on _B_or_M
 		-a suitable Base B
 		-a suitable Poly M 
 		return true or false depending on if it was found
@@ -143,108 +143,50 @@ bool findMorBFromRoot(const ZZ& P, const int n, const RR& W4, const ZZ_p& Root, 
 		i++;
 
 		if (i == nbRow){ //every poly of the base was not good
-			//cout << Base << endl;
-			/*RR MinBound = conv<RR>(0);
-			if (not IsOdd(ConstTerm(E))){
-				//trying to make the sum of lines of the base work :
-				ZZX A, B;
-				
+			//return findMSum(P, n, W4, Root, E, M_dest, Base_dest);
 
-				for (int j = 0; j < nbRow; j++){
-
-					bool invA;
-
-					A = conv<ZZX>(Base[j]);
-
-					invA = checkMorB(A, E);
-
-					RR BoundA = W4 * conv<RR>(norm1_M_Wrapper(A, E)) * (_Delta + 1) * (_Delta + 1);
-					
-					
-
-					RR BoundAB = BoundA;
-					RR BoundTmpAB;
-					RR BoundTmpA_B;
-					RR BoundTmpB_A;
-
-					for (int k = 0;k < nbRow; k++){
-						
-						bool invB;
-
-						if (j != k){
-
-							B = conv<ZZX>(Base[k]);
-
-							invB = checkMorB(B, E);
-
-							ZZX AB = A + B;
-
-							if (checkMorB(AB, E)){
-								BoundTmpAB = W4 * conv<RR>(norm1_M_Wrapper(AB, E)) * (_Delta + 1) * (_Delta + 1);
-								if (MinBound == 0){
-									MinBound = BoundTmpAB;
-								}
-								else{
-									if (BoundTmpAB < MinBound){
-										MinBound = BoundTmpAB;
-									}
-								}
-							}
-
-							ZZX A_B = A - B;
-							if (checkMorB(A_B, E)){
-								BoundTmpA_B = W4 * conv<RR>(norm1_M_Wrapper(A_B, E)) * (_Delta + 1) * (_Delta + 1);
-								if (MinBound == 0){
-									MinBound = BoundTmpA_B;
-								}
-								else{
-									if (BoundTmpA_B < MinBound){
-										MinBound = BoundTmpA_B;
-									}
-								}
-							}
-
-							ZZX B_A = B - A;
-							if (checkMorB(B_A, E)){
-								BoundTmpB_A = W4 * conv<RR>(norm1_M_Wrapper(B_A, E)) * (_Delta + 1) * (_Delta + 1);
-								if (MinBound == 0){
-									MinBound = BoundTmpB_A;
-								}
-								else{
-									if (BoundTmpB_A < MinBound){
-										MinBound = BoundTmpB_A;
-									}
-								}
-							}
-						}
-					}
-				}
-
-				RR RR_2 = conv<RR>(2);
-				RR bottom = log(RR_2);
-
-				if (MinBoundM > MinBound){
-					if (log(MinBoundM)/bottom > 80){
-						//cout << Base << endl;
-					}
-
-					cout << log(MinBoundM)/bottom << " " << flush;
-					if (MinBound != 0){
-						cout << log(MinBound)/bottom << endl;
-					}
-					else{
-						cout << endl;
-					}
-				}
-
-				
-			
-				
-			}*/
 			return false;
 		}
 	}
 }
+
+
+
+/*bool findMSum(const ZZ& P, const int n, const RR& W4, const ZZ_p& Root, const ZZX& E, ZZX& M_dest, mat_ZZ& Base_dest){
+	if (is_irreducible(E) and not IsOdd(ConstTerm(E))){
+		Mat<ZZ> Tmp = Base;
+		Mat<ZZ> Next;
+		Next.SetDims(n, n);
+		while(true){
+			
+			for (int j = 0; j < nbRow; j++){
+
+				ZZX A = conv<ZZX>(Tmp[j]);
+				bool inv_A = checkMorB(A, E);
+
+				for (int k = 0; k < nbRow; k++){
+
+					ZZX B = conv<ZZX>(Tmp[k]);
+					bool inv_B = checkMorB(B, E);
+
+					if (inv_A xor inv_B){
+
+						//ZZX
+
+						if (deg(conv<ZZX>(Next[j])) == 0){
+							//Next[j] = 
+						}
+					}
+
+				}
+			}
+		
+			return false;
+		}
+	}
+
+	return false;
+}*/
 
 void invMorB(const ZZ& P, const ZZX& E, const ZZX& M, 
 			const Mat<ZZ>& Base,  ZZX& M_inv_dest,  Mat<ZZ>& Base_inv_dest){

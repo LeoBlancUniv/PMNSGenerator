@@ -21,7 +21,7 @@ bool findRootsGcdXp_X(const ZZ& P, const ZZ_pX& Poly, Vec<ZZ_p>& Roots_dest){
 	/*
 		generic way of finding the roots of <Poly>
 		builds the poly Xp_X = X^P - X mod <Poly> and then takes R = GCD of Xp_X and <Poly>
-		since P is prime every a in Fp is a solution to Xp_X(a) = 0 mod P
+		since P is prime, every a in Fp is a solution of Xp_X(x) = 0 mod P
 		so Xp_X(x) = (x - 0)(x - 1)...(x - P-1)
 		
 		from this, R can be equals to : 
@@ -351,7 +351,7 @@ bool findRootsGcdComposite_Xn_Lam(const ZZ& P, const ZZ& N, const ZZ& B, Vec<ZZ_
 		only called when <B> is composite
 		<B> is gcd of P-1 and <N>
 
-		this function for each root in <Roots_src> will find the <N>th root of X^<N> - root
+		this function for each root in <Roots_src> will find the solutions of X^<N> - root
 		by considering N = B * Q(<- is going to be N / B)
 
 		looking for Nth root of A is the same as looking at the 

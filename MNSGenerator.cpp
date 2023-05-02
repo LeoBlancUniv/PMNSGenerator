@@ -66,57 +66,56 @@ bool generateFromE(const ZZ& P, const int n, const RootStrategy RStrat, const ZZ
 		extract the roots of <E> and send them to the next function
 	*/
 
-	if (polyCheckWrapper(E, P)){ 
-		
+	
 
-		Vec<ZZ_p> Roots_vec;
+	Vec<ZZ_p> Roots_vec;
 
-		bool rootsFound = false;
+	bool rootsFound = false;
 
-		if (_SVerbose){
-			polyPrintWrapper(E);
-		}
+	if (_SVerbose){
+		polyPrintWrapper(E);
+	}
 
-		switch (_Poly_Type){
-			case Xn_Lam :
+	switch (_Poly_Type){
+		case Xn_Lam :
 
-				if (findRoots_Xn_Lam(conv<ZZ_pX>(E), RStrat, P, conv<ZZ>(n), PoverBK, Roots_vec)){
-					rootsFound = true;
-				}
-
-			break;
-
-			case Xn_X_1 :
-
-				if (findRoots_Xn_X_1(P, E, RStrat, Roots_vec)){
-					rootsFound = true;
-				}
-
-			break;
-
-			case Xn_X2_1 :
-				if (findRoots_Xn_X2_1(P, E, RStrat, Roots_vec)){
-					rootsFound = true;
-				}
-			break;
-
-			default : cout << "ERROR in _Poly_Type" << endl; break;
-		}
-
-		if (rootsFound){ 
-				
-			Vec<ZZ_p> RootsFilter_vec;
-
-			if (filterRoot(P, E, Roots_vec, RootsFilter_vec)){
-				//we can try to generate a pmns
-				if (testFullGenerate(P, n, E, RootsFilter_vec,
-											Rho_dest, Gamma_dest, Base_dest, Base_inv_dest
-											, M_dest, M_inv_dest)){
-					return true;
-				}	
+			if (findRoots_Xn_Lam(conv<ZZ_pX>(E), RStrat, P, conv<ZZ>(n), PoverBK, Roots_vec)){
+				rootsFound = true;
 			}
+
+		break;
+
+		case Xn_X_1 :
+
+			if (findRoots_Xn_X_1(P, E, RStrat, Roots_vec)){
+				rootsFound = true;
+			}
+
+		break;
+
+		case Xn_X2_1 :
+			if (findRoots_Xn_X2_1(P, E, RStrat, Roots_vec)){
+				rootsFound = true;
+			}
+		break;
+
+		default : cout << "ERROR in _Poly_Type" << endl; break;
+	}
+
+	if (rootsFound){ 
+			
+		Vec<ZZ_p> RootsFilter_vec;
+
+		if (filterRoot(P, E, Roots_vec, RootsFilter_vec)){
+			//we can try to generate a pmns
+			if (testFullGenerate(P, n, E, RootsFilter_vec,
+										Rho_dest, Gamma_dest, Base_dest, Base_inv_dest
+										, M_dest, M_inv_dest)){
+				return true;
+			}	
 		}
 	}
+	
 	return false;
 }
 
@@ -175,7 +174,10 @@ bool generateFromN(ZZ& P, int n){
 	}
 
 	if (testPHIBound(P, TmpE)){
-		E_vec.append(TmpE);
+		if (polyCheckWrapper(TmpE, P)){
+			E_vec.append(TmpE);
+		}
+		
 	}
 	else{
 		//no valid poly found, we can stop here
@@ -187,8 +189,18 @@ bool generateFromN(ZZ& P, int n){
 	}
 
 	while(polyNextWrapper(TmpE, TmpE) and testPHIBound(P, TmpE)){
-		E_vec.append(TmpE);
+		
+		if (polyCheckWrapper(TmpE, P)){
+			E_vec.append(TmpE);
+		}
 	}
+
+	if (E_vec.length() == 0){
+		if (_Verbose){
+			cout << "No Good Poly found" << endl;
+		}
+		return false;
+	}	
 
 	if (_Verbose){
 		cout << "Searching through " << E_vec.length() << " possible polynomials" << endl;

@@ -33,8 +33,8 @@ int _Delta = 0;
 PolyType _Poly_Type = PolyType::Xn_Lam;
 MorB _B_or_M = MorB::M;
 bool _DisableFastRootCheck = false;
-bool _ExactMaxBound = false;
 bool _AugmentedMinN = false;
+bool _ForceIrreducible = false;
 int _FactorLimit = 0;
 bool _BKZ = false;
 

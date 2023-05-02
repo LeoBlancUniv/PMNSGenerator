@@ -36,7 +36,6 @@ int main(int argc, char const *argv[])
 		else if (current == "-FastHeuristic"){
 			_Poly_Type = PolyType::Xn_Lam;
 			_FactorLimit = 60;
-			_ExactMaxBound = true;
 			_AugmentedMinN = true;
 			i++;
 		}
@@ -153,13 +152,14 @@ int main(int argc, char const *argv[])
 			i++;
 		}
 
-		else if (current == "-ExactMaxBound"){
-			_ExactMaxBound = true;
-			i++;
-		}
 
 		else if (current == "-AugmentedMinN"){
 			_AugmentedMinN = true;
+			i++;
+		}
+
+		else if (current == "-ForceIrreducible"){
+			_ForceIrreducible = true;
 			i++;
 		}
 

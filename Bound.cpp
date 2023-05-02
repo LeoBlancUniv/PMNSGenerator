@@ -41,6 +41,7 @@ RR phiBound(const int n, const int w, const RR& nthRootoFp){
 
 	if (_AugmentedMinN){
 		Tmp *= nthRoot(conv<ZZ>(n), 2);
+
 	}
 
 
@@ -96,28 +97,13 @@ bool testPHIBound(const ZZ& P, const ZZX& E){
 	int n = deg(E);
 	RR W4 = 4 * calcW_Wrapper(E);
 	RR NthRootOfP = nthRoot(P, n);
-	RR BoundLimit = NthRootOfP * W4 * (_Delta + 1) * (_Delta + 1);
+	RR BoundLimit = pow(1.02, n) * NthRootOfP * W4 * (_Delta + 1) * (_Delta + 1);
 
-	if (_ExactMaxBound){
-
-		//we mult the bound by the deg of the highest factor of E
-
-		vec_pair_ZZX_long Factor_vec;
-
-		factorZ(Factor_vec, E);
-
-		int m = 0;
-
-		for (int i = 0; i < Factor_vec.length(); i++){
-			if (deg(Factor_vec[i].a) > m)
-				m = deg(Factor_vec[i].a);
-		}
-
-		BoundLimit *= m;
-	}
-
+	
 	return BoundLimit < PHI_RR;
 }
+
+
 
 bool testDegNthRootP(const ZZ& P, int n, int deg){
 	/*

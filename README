@@ -26,7 +26,7 @@ equivalent to : -Poly_Type ANY -DisableFastRootCheck -FactorLimit -1
 
 
 -FastHeuristic : will enable most strategy to reduce time but may not find the smallest possible pmns
-equivalent to : -Poly_Type Xn_Lam -FactorLimit 60 -ExactMaxBound -AugmentedMinN
+equivalent to : -Poly_Type Xn_Lam -FactorLimit 60 -AugmentedMinN
 
 -------------------------------------------------------------------------------------
 
@@ -74,10 +74,9 @@ Theses options are used to change some of the internal logic (optimisation, stra
 
 -DisableFastRootCheck : will force a check on every roots instead of one (this will cause multiple LLL call per poly considered so expect a big slowdown)
 
--ExactMaxBound : change the max bound calc from P^(1/n) to n * P^(1/n), will accelerate a lot at the cost of skipping smaller correct pmns
-
 -AugmentedMinN : change the smallest n bound from P(1/n) to sqrt(n) * P^(1/n), so that will make the default min N grow bigger
 
+-ForceIrreducible : will only allow irreducible polynomials to be considered
 
 -FactorLimit <value> :
 

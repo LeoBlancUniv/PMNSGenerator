@@ -243,6 +243,12 @@ bool polyCheck_Xn_Lam(const ZZX& Poly, const ZZ& P){
 		fast check if <Poly> contains root
 	*/
 
+	if (_ForceIrreducible){
+		if (!is_irreducible(Poly)){
+			return false;
+		}
+	}
+
 	ZZ N = conv<ZZ>(deg(Poly));
 
 	ZZ B = GCD(P-1, N);
@@ -256,11 +262,24 @@ bool polyCheck_Xn_Lam(const ZZX& Poly, const ZZ& P){
 
 bool polyCheck_Xn_X_1(const ZZX& Poly){
 	//if you find a condidtion to use the Xn_X_1 it goes here
+
+	if (_ForceIrreducible){
+		if (!is_irreducible(Poly)){
+			return false;
+		}
+	}
+
 	return true;
 }
 
 bool polyCheck_Xn_X2_1(const ZZX& Poly){
 	//if you find a condidtion to use the Xn_X2_1 it goes here
+
+	if (_ForceIrreducible){
+		if (!is_irreducible(Poly)){
+			return false;
+		}
+	}
 
 	return true;
 }
