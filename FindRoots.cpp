@@ -193,7 +193,31 @@ RootStrategy findRootStrategy_Xn_Lam(const ZZ& P, const ZZ& N, ZZ& Expo_dest, bo
 
 	*/
 
-	ZZ Expo;
+	ZZ Expo = P-1;
+
+	if (GCD (Expo, N) != 1 and GCD(Expo, N) != N){
+		return RootStrategy::Xn_Lam_CompositeGCD;
+	}
+
+	int count = 0;
+
+	while(GCD(Expo, N) == N){
+		Expo /= N;
+	}
+
+	Expo_dest = Expo;
+
+	if (count > 1){
+		if (forceFactor)
+			return RootStrategy::Xn_Lam_NthResidueOrFactor;
+		else
+			return RootStrategy::Xn_Lam_NthResidue;
+	}
+	else{
+		return RootStrategy::Xn_Lam_EasyRoot;
+	}
+
+	/*ZZ Expo;
 	ZZ B = GCD(P-1, N);
 	Expo =  (P-1) / B;
 
@@ -204,9 +228,9 @@ RootStrategy findRootStrategy_Xn_Lam(const ZZ& P, const ZZ& N, ZZ& Expo_dest, bo
 	if (B == N){
 		//still not convinced this works properly
 
-		if (GCD(Expo, N) != 1){
+		if (GCD(Expo, B) != 1){
 			
-			while(GCD(Expo, N) != 1)
+			while(GCD(Expo, B) != 1)
 				Expo /= B;
 
 			Expo_dest = Expo;
@@ -219,8 +243,7 @@ RootStrategy findRootStrategy_Xn_Lam(const ZZ& P, const ZZ& N, ZZ& Expo_dest, bo
 		}
 		else{
 
-			while(GCD(Expo, N)/B == 1)
-				Expo /= B;
+			
 			
 			Expo_dest = Expo;
 			return RootStrategy::Xn_Lam_EasyRoot;
@@ -228,7 +251,7 @@ RootStrategy findRootStrategy_Xn_Lam(const ZZ& P, const ZZ& N, ZZ& Expo_dest, bo
 	}
 	else{
 		return RootStrategy::Xn_Lam_CompositeGCD;
-	}
+	}*/
 
 }
 
