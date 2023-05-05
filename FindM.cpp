@@ -86,7 +86,7 @@ bool checkMorB(const ZZX& M, const ZZX& E){
 }
 
 
-bool findMorBFromRoot(const ZZ& P, const int n, const RR& W4, const ZZ_p& Root, const ZZX& E, ZZX& M_dest, mat_ZZ& Base_dest){
+bool findMorBFromRoot(const ZZ& P, const int n, const ZZ_p& Root, const ZZX& E, ZZX& M_dest, mat_ZZ& Base_dest){
 	/*
 		from a root of the poly, create the associated lattice
 		and tries to find depending on _B_or_M
@@ -102,7 +102,7 @@ bool findMorBFromRoot(const ZZ& P, const int n, const RR& W4, const ZZ_p& Root, 
 
 	mat_ZZ Base = createReducedBaseFpLLL(P, n, Root);
 
-	if (_B_or_M == MorB::B and W4 * conv<RR>(norm1(Base)) * (_Delta + 1) * (_Delta + 1) < PHI_RR){
+	if ((_B_or_M == MorB::B) and (_FixedRho ? testRHOBoundMat(E, Base) : testPHIBoundMat(E, Base))){
 		Base_dest = Base;
 		return true;
 	}
@@ -112,38 +112,26 @@ bool findMorBFromRoot(const ZZ& P, const int n, const RR& W4, const ZZ_p& Root, 
 	ZZ Lam = -ConstTerm(E);
 
 	int i = 0;
-
-	RR MinBoundM = conv<RR>(0);	
+	//cout << "tet" << endl;
 	while(true){
 
 		M = conv<ZZX>(Base[i]); //convert the ith line of the matrix into a poly
-
+		//cout << M << endl;
 		if (checkMorB(M, E)){ //is M invertible
-			RR BoundTmp = W4 * conv<RR>(norm1_M_Wrapper(M, E)) * (_Delta + 1) * (_Delta + 1);
-			if (BoundTmp < PHI_RR){
+			if (_FixedRho ? testRHOBoundPoly(E, M) : testPHIBoundPoly(E, M)){
 				
 				M_dest = M;
 				Base_dest = Base;
 				
 				return true;
 			}
-			else{
-				if (MinBoundM == 0){
-					MinBoundM = BoundTmp;
-				}
-				else
-				{
-					if (BoundTmp < MinBoundM){
-						MinBoundM = BoundTmp;
-					}
-				}
-			}
+			
 		}
 
 		i++;
 
 		if (i == nbRow){ //every poly of the base was not good
-			//return findMSum(P, n, W4, Root, E, M_dest, Base_dest);
+			
 
 			return false;
 		}
@@ -151,42 +139,6 @@ bool findMorBFromRoot(const ZZ& P, const int n, const RR& W4, const ZZ_p& Root, 
 }
 
 
-
-/*bool findMSum(const ZZ& P, const int n, const RR& W4, const ZZ_p& Root, const ZZX& E, ZZX& M_dest, mat_ZZ& Base_dest){
-	if (is_irreducible(E) and not IsOdd(ConstTerm(E))){
-		Mat<ZZ> Tmp = Base;
-		Mat<ZZ> Next;
-		Next.SetDims(n, n);
-		while(true){
-			
-			for (int j = 0; j < nbRow; j++){
-
-				ZZX A = conv<ZZX>(Tmp[j]);
-				bool inv_A = checkMorB(A, E);
-
-				for (int k = 0; k < nbRow; k++){
-
-					ZZX B = conv<ZZX>(Tmp[k]);
-					bool inv_B = checkMorB(B, E);
-
-					if (inv_A xor inv_B){
-
-						//ZZX
-
-						if (deg(conv<ZZX>(Next[j])) == 0){
-							//Next[j] = 
-						}
-					}
-
-				}
-			}
-		
-			return false;
-		}
-	}
-
-	return false;
-}*/
 
 void invMorB(const ZZ& P, const ZZX& E, const ZZX& M, 
 			const Mat<ZZ>& Base,  ZZX& M_inv_dest,  Mat<ZZ>& Base_inv_dest){
@@ -219,6 +171,7 @@ void invMorB(const ZZ& P, const ZZX& E, const ZZX& M,
 
 		XGCD(Val, U, V, M, E);
 
+		//cout << Val << " " << M << endl;
 		{	//create a scope where the modulus is Phi
 			ZZ_pPush push;
 			ZZ_p::init(PHI);

@@ -194,20 +194,38 @@ RootStrategy findRootStrategy_Xn_Lam(const ZZ& P, const ZZ& N, ZZ& Expo_dest, bo
 	*/
 
 	ZZ Expo = P-1;
-
+	//cout << Expo << endl;
 	if (GCD (Expo, N) != 1 and GCD(Expo, N) != N){
 		return RootStrategy::Xn_Lam_CompositeGCD;
 	}
 
-	int count = 0;
+	int count_N = 0;
+	int count_F = 0;
+	ZZ B = GCD(Expo, N);
 
-	while(GCD(Expo, N) == N){
-		Expo /= N;
+	while(B != 1){
+		if (B == N)
+			count_N++;
+		else
+			count_F++;
+		Expo /= B;
+		B = GCD(Expo, N);
 	}
-
+	//cout << Expo << endl;
+	//cout << count << endl;
 	Expo_dest = Expo;
 
-	if (count > 1){
+	if (count_F > 0 or count_N > 1){
+		if (forceFactor)
+			return RootStrategy::Xn_Lam_NthResidueOrFactor;
+		else
+			return RootStrategy::Xn_Lam_NthResidue;
+	}
+	else{
+		return RootStrategy::Xn_Lam_EasyRoot;
+	}
+
+	if (count_N > 1){
 		if (forceFactor)
 			return RootStrategy::Xn_Lam_NthResidueOrFactor;
 		else
@@ -269,6 +287,7 @@ bool findRoots_Xn_Lam(const ZZ_pX& Poly, const RootStrategy RStrat,
 
 	switch (RStrat){
 		case Xn_Lam_CompositeGCD : {
+
 			Vec<ZZ_p> RootInit_vec;
 
 			RootInit_vec.append(Lam);
@@ -280,8 +299,12 @@ bool findRoots_Xn_Lam(const ZZ_pX& Poly, const RootStrategy RStrat,
 		case Xn_Lam_EasyRoot : {
 			//here it's guarantied that findEasyRoot works
 			ZZ_p R1;
+			
 			findEasyRoot_Xn_lam(RStrat, Lam, N, PoverBK, R1);
+			
+
 			generateRoot_Xn_lam(P, B, R1, Roots_dest);
+			
 
 			return true;
 			break;
@@ -336,13 +359,13 @@ bool findEasyRoot_Xn_lam(const RootStrategy& RStrat, const ZZ_p& Lam, const  ZZ&
 	//these two pretty much do the same thing maybe factor code here
 	if (RStrat == RootStrategy::Xn_Lam_EasyRoot){
 		ZZ_p U;
+		//cout << Expo << " " << N_p << endl;
 		{ 
 			
 			ZZ_pPush push;
 			ZZ_p::init(Expo);
 			U = inv(N_p);
 		}
-
 		Roots_dest = power(Lam, conv<ZZ>(U));
 
 		return true;

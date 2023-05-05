@@ -17,13 +17,12 @@ bool testFullGenerate(const ZZ& P, int n, const ZZX& E,
 		from a poly E, p, and n, tries to generate a PMNS
 		return true or false depending on the succes
 	*/
-
+	
 	
 
 	ZZ Rho;
 	mat_ZZ Base;
-	
-	RR W4 = 4 * calcW_Wrapper(E);
+
 
 	int nBRoots;
 
@@ -38,11 +37,19 @@ bool testFullGenerate(const ZZ& P, int n, const ZZX& E,
 
 
 
-			if (findMorBFromRoot(P, n, W4, Roots_vec[i], E, M, Base)){
-
+			if (findMorBFromRoot(P, n, Roots_vec[i], E, M, Base)){
 				invMorB(P, E, M, Base, M_inv_dest, Base_inv_dest);
+				if (_FixedRho){
+					Rho = calcRho(M, Base, E);
+					_Phi_Log = calcPhi(Rho, E);
 
-				Rho = calcRho(M, Base, E);
+					PHI = ZZ(1) << _Phi_Log;
+					PHI_RR = conv<RR>(PHI);
+				}
+				else{
+					Rho = calcRho(M, Base, E);
+				}
+				
 				
 				Base_dest = Base;
 				M_dest = M;
@@ -78,10 +85,11 @@ bool generateFromE(const ZZ& P, const int n, const RootStrategy RStrat, const ZZ
 
 	switch (_Poly_Type){
 		case Xn_Lam :
-
+			
 			if (findRoots_Xn_Lam(conv<ZZ_pX>(E), RStrat, P, conv<ZZ>(n), PoverBK, Roots_vec)){
 				rootsFound = true;
 			}
+			
 
 		break;
 
@@ -101,7 +109,7 @@ bool generateFromE(const ZZ& P, const int n, const RootStrategy RStrat, const ZZ
 
 		default : cout << "ERROR in _Poly_Type" << endl; break;
 	}
-
+	
 	if (rootsFound){ 
 			
 		Vec<ZZ_p> RootsFilter_vec;
@@ -173,7 +181,7 @@ bool generateFromN(ZZ& P, int n){
 		return false;
 	}
 
-	if (testPHIBound(P, TmpE)){
+	if (_FixedRho ? testRHOBound(P, TmpE) : testPHIBound(P, TmpE)){
 		if (polyCheckWrapper(TmpE, P)){
 			E_vec.append(TmpE);
 		}
@@ -188,7 +196,7 @@ bool generateFromN(ZZ& P, int n){
 		return false;
 	}
 
-	while(polyNextWrapper(TmpE, TmpE) and testPHIBound(P, TmpE)){
+	while((polyNextWrapper(TmpE, TmpE)) and (_FixedRho ? testRHOBound(P, TmpE) : testPHIBound(P, TmpE))){
 		
 		if (polyCheckWrapper(TmpE, P)){
 			E_vec.append(TmpE);
@@ -247,7 +255,7 @@ bool generateFromN(ZZ& P, int n){
 			cout << "n : " << n << endl;
 			cout << "gamma : " << Gamma << endl;
 			cout << "rho : " << Rho << endl;
-			cout << "phi : " << PHI << endl;
+			cout << "phi : " << _Phi_Log << " " << PHI << endl;
 			cout << "E : " << E_vec[nb] << endl;
 
 			if (_B_or_M == MorB::B){
@@ -287,7 +295,7 @@ void MNSGenerator(){
 	}
 
 	ZZ P;
-	int nbBitsP = 0; //suppres uninitialised var warning
+	int nbBitsP = 0; //supprese uninitialised var warning
 
 	if (_P != -1){
 		P = _P;
@@ -344,14 +352,17 @@ void MNSGenerator(){
 		else{
 			//theoretical minimum possible n
 			n_lower = (NumBits(P) / _Phi_Log)+1; //n starts at (log_2(p) / phi)) + 1
-			
-			while(PHI_RR < phiBound(n_lower, 2*n_lower - 1, nthRoot(P, n_lower))){
-				n_lower++;
+			if (_FixedRho){
+				RR RHO_RR = conv<RR>(ZZ(1) << 64); 
+				while(RHO_RR < rhoBound(n_lower, 2*n_lower - 1, nthRoot(P, n_lower))){
+					n_lower++;
+				}
 			}
-
-			/*if (PHI_RR < phiBound(n_lower, 1.5f*n_lower, nthRoot(P, n_lower))){
-				n_lower++;
-			}*/
+			else{
+				while(PHI_RR < phiBound(n_lower, 2*n_lower - 1, nthRoot(P, n_lower))){
+					n_lower++;
+				}
+			}
 		}
 
 		

@@ -58,6 +58,7 @@ extern bool _AugmentedMinN;
 extern bool _ForceIrreducible;
 extern int _FactorLimit;
 extern bool _BKZ;
+extern bool _FixedRho;
 
 
 //

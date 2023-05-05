@@ -27,7 +27,7 @@ enum MorB : int{
 bool checkMorB(const NTL::ZZX& M, const NTL::ZZX& E);
 
 
-bool findMorBFromRoot(const NTL::ZZ& P, const int n, const NTL::RR& W4, const NTL::ZZ_p& Root, const NTL::ZZX& E, NTL::ZZX& M_dest, NTL::Mat<NTL::ZZ>& Base_dest);
+bool findMorBFromRoot(const NTL::ZZ& P, const int n, const NTL::ZZ_p& Root, const NTL::ZZX& E, NTL::ZZX& M_dest, NTL::Mat<NTL::ZZ>& Base_dest);
 
 void invMorB(const NTL::ZZ& P, const NTL::ZZX& E, const NTL::ZZX& M, 
 			const NTL::Mat<NTL::ZZ>& Base,  NTL::ZZX& M_inv_dest, 

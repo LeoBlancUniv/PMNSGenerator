@@ -37,6 +37,7 @@ bool _AugmentedMinN = false;
 bool _ForceIrreducible = false;
 int _FactorLimit = 0;
 bool _BKZ = false;
+bool _FixedRho = false;
 
 //
 

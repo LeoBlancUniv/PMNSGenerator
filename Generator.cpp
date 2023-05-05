@@ -174,6 +174,11 @@ int main(int argc, char const *argv[])
 			i++;
 		}
 
+		else if (current == "-FixedRho"){
+			_FixedRho = true;
+			i++;
+		}
+
 		else if (current == "-Xn_Lam_Lam_Set"){
 			_Xn_Lam_Lam_Set = true;
 			_Xn_Lam_Lam = stoi(argv[i+1]);
