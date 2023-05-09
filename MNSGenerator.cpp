@@ -289,9 +289,10 @@ void MNSGenerator(){
 	if (_Verbose){
 		cout << "Starting PMNS generation" << endl;
 		cout << "Looking for " << MorBStr[_B_or_M] << endl;
-		cout << "PHI : " << _Phi_Log << endl;
-		cout << "Delta : " << _Delta << endl;
-		
+		if (!_FixedRho){
+			cout << "PHI : " << _Phi_Log << endl;
+			cout << "Delta : " << _Delta << endl;		
+		}
 	}
 
 	ZZ P;
