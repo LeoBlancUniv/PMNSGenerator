@@ -89,6 +89,9 @@ int calcPhi(const ZZ& Rho, const ZZX& E){
 	/*
 		calculate Phi(_FixedRho mode) depending if we where looking for M or B
 	*/
+
+
+
 	int Phi = 0;
 
 	
@@ -106,7 +109,7 @@ ZZ calcRho(const ZZX& M, const Mat<ZZ>& Base, const ZZX& E){
 	*/
 
 	if (_FixedRho){
-		return conv<ZZ>(ceil(conv<RR>(ZZ(1) << 64)) / (nthRoot(conv<ZZ>(calcW_Wrapper(E)), 2)));
+		return conv<ZZ>(2 * norm1_M_Wrapper(M, E));
 	}
 
 	ZZ Rho = ZZ(0);

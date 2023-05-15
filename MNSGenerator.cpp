@@ -38,7 +38,7 @@ bool testFullGenerate(const ZZ& P, int n, const ZZX& E,
 
 
 			if (findMorBFromRoot(P, n, Roots_vec[i], E, M, Base)){
-				invMorB(P, E, M, Base, M_inv_dest, Base_inv_dest);
+				
 				if (_FixedRho){
 					Rho = calcRho(M, Base, E);
 					_Phi_Log = calcPhi(Rho, E);
@@ -49,8 +49,24 @@ bool testFullGenerate(const ZZ& P, int n, const ZZX& E,
 				else{
 					Rho = calcRho(M, Base, E);
 				}
-				
-				
+				invMorB(P, E, M, Base, M_inv_dest, Base_inv_dest);
+
+				cout << (ZZ(1) << 64) << endl;
+
+				cout << PHI << endl;
+
+				cout << M << endl;
+
+				cout << M_inv_dest << endl;
+
+				{	//create a scope where the modulus is Phi
+					ZZ_pPush push;
+					ZZ_p::init(PHI);
+
+					ZZ_pX ada = MulMod(conv<ZZ_pX>(M), conv<ZZ_pX>(M_inv_dest), conv<ZZ_pX>(E));
+
+					cout << ada << endl;
+				}
 				Base_dest = Base;
 				M_dest = M;
 				Rho_dest = Rho;
