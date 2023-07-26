@@ -172,7 +172,7 @@ bool testRHOBoundMat(const ZZX& E, const Mat<ZZ>& Mat){
 	/*
 		check if the poly <E> is in the RHO bound 
 	*/
-	//cout << "test" << endl;
+	
 	RR W2 = 2 * nthRoot(conv<ZZ>(calcW_Wrapper(E)), 2);
 	RR BoundLimit = conv<RR>(norm1(Mat)) * W2 * (_Delta + 1) * (_Delta + 1);
 
@@ -195,7 +195,7 @@ bool testRHOBoundPoly(const ZZX& E, const ZZX& M){
 	/*
 		check if the poly <E> is in the RHO bound 
 	*/
-	//cout << "test" << endl;
+
 	RR W2 = 2 * nthRoot(conv<ZZ>(calcW_Wrapper(E)), 2);
 	RR BoundLimit = conv<RR>(norm1_M_Wrapper(M, E)) * W2 * (_Delta + 1) * (_Delta + 1);
 

@@ -51,22 +51,9 @@ bool testFullGenerate(const ZZ& P, int n, const ZZX& E,
 				}
 				invMorB(P, E, M, Base, M_inv_dest, Base_inv_dest);
 
-				cout << (ZZ(1) << 64) << endl;
+				
 
-				cout << PHI << endl;
-
-				cout << M << endl;
-
-				cout << M_inv_dest << endl;
-
-				{	//create a scope where the modulus is Phi
-					ZZ_pPush push;
-					ZZ_p::init(PHI);
-
-					ZZ_pX ada = MulMod(conv<ZZ_pX>(M), conv<ZZ_pX>(M_inv_dest), conv<ZZ_pX>(E));
-
-					cout << ada << endl;
-				}
+				
 				Base_dest = Base;
 				M_dest = M;
 				Rho_dest = Rho;
@@ -325,7 +312,7 @@ void MNSGenerator(){
 		nbBitsP = _P_Size;
 	}
 	
-	if (_Out){
+	if (_Out and !_FixedRho){
 		_Path = "PMNS/";
 		_Filename = "generatedwith";
 		_Filename += MorBStr[_B_or_M];

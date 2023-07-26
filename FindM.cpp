@@ -112,7 +112,7 @@ bool findMorBFromRoot(const ZZ& P, const int n, const ZZ_p& Root, const ZZX& E, 
 	ZZ Lam = -ConstTerm(E);
 
 	int i = 0;
-	//cout << "tet" << endl;
+
 	while(true){
 
 		M = conv<ZZX>(Base[i]); //convert the ith line of the matrix into a poly

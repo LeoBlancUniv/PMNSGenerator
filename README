@@ -105,7 +105,7 @@ Theses options are used to change some of the internal logic (optimisation, stra
 
 -BKZ : uses BKZ instead of LLL for the reduction, yield better base but takes longer 
 
--FixedRho : changes the generation so that Rho is fixed and Phi is calculated, Rho will be 2^64 / sqrt(w)
+-FixedRho : changes the generation so that Rho is fixed and Phi is calculated, Rho will be 2^64 / sqrt(w), can't use -Out option with this
 
 -------------------------------------------------------------------------------------
 
